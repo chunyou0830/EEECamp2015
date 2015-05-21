@@ -4,20 +4,22 @@
 #include <Windows.h>
 #include <conio.h>
 #include <ctime>
-#include <iomanip>
 
 using namespace std;
 // 35 = walls
-//111 = small pills
-// 79 = power pills
-//074 = pacman right
-//076 = pacman left
-//118 = pacman up
-//94 = pacman down
-// 87 = ghost1
+
 // 88 = ghost2
 // 89 = ghost3
 
+const int SMALLPILL = 111;
+const int POWERPILL = 79;
+const int PACMANRIGHT = 074;
+const int PACMANLEFT = 076;
+const int PACMANUP = 118;
+const int PACMANDOWN = 94;
+const int GHOST1 = 87;
+const int BLANK = 000;
+const int WALL = 35;
 const int MAXROWS = 32;
 const int MAXCOLUMNS = 28;
 
@@ -79,8 +81,7 @@ bool ghostMoveLeft();
 bool ghostMoveRight();
 int findNode();
 
-int score = 0;
-int pillCount = 244; //Checked by CY 
+int pillCount = 244;
 int lives = 3;
 clock_t startTime = 0, endTime= 0;
 bool superPellet = false;
@@ -108,7 +109,7 @@ int main()
     cout << "###########				   "<< endl;   
     cout << "#########					   "<< endl;
     cout << "############			   "<< "PACMAN" << endl;         
-    cout << "##################		   "<< "  NTHUEE English Camp" << endl;       
+    cout << "##################		   "<< endl;       
     cout << "#######################		   "<< endl;         
     cout << "###########################				   "<< endl;
     cout << "##############################				   "<< endl;
@@ -128,121 +129,88 @@ int main()
 
     do
     {
-		//Set Start position
-		GoToXY(0, 0);
-		Ghost();
-		//Column
-		for (i = 0; i <= 31; i++)
-		{
-			//Row
-			for (j = 0; j <= 27; j++)
-			{
-				//Walls
-				if (levelMatrix[i][j] == 35)
+	   //Set Start position
+	   GoToXY(0, 0);
+	   Ghost();
+	   getKeyPress();
+	   //Column
+	   for (i = 0; i <= 31; i++)
+	   {
+		  //Row
+		  for (j = 0; j <= 27; j++)
+		  {
+			 //Walls
+			 if (levelMatrix[i][j] == WALL)
+			 {
+				k = 1;
+				SetConsoleTextAttribute(hConsole, k);
+			 }
+			 //Pacman
+			 else if (levelMatrix[i][j] == PACMANRIGHT || levelMatrix[i][j] == PACMANLEFT || levelMatrix[i][j] == PACMANUP ||levelMatrix[i][j] == PACMANDOWN)
+			 {
+				k = 14;
+				SetConsoleTextAttribute(hConsole, k);
+			 }
+			 //Blank
+			 else if (levelMatrix[i][j] == BLANK)
+			 {
+				k = 0;
+				SetConsoleTextAttribute(hConsole, k);
+			 }
+			 //Ghost
+			 else if (levelMatrix[i][j] == GHOST1)
+			 {
+				if (superPellet)
 				{
-					k = 1;
-					SetConsoleTextAttribute(hConsole, k);
+				    k = 7;
+				    SetConsoleTextAttribute(hConsole, k);
 				}
-				//Pacman
-				else if (levelMatrix[i][j] == 074 || levelMatrix[i][j] == 076 || levelMatrix[i][j] == 118 ||levelMatrix[i][j] == 94)
+				else
 				{
-					k = 14;
-					SetConsoleTextAttribute(hConsole, k);
+				    k = 4;
+				    SetConsoleTextAttribute(hConsole, k);
 				}
-				//Blank
-				else if (levelMatrix[i][j] == 000)
-				{
-					k = 0;
-					SetConsoleTextAttribute(hConsole, k);
-				}
-				//Ghost
-				else if (levelMatrix[i][j] == 87)
-				{
-					if (superPellet)
-					{
-				    	k = 7;
-				    	SetConsoleTextAttribute(hConsole, k);
-					}
-					else
-					{
-				    	k = 4;
-				    	SetConsoleTextAttribute(hConsole, k);
-					}
-				}
-				//pill
-				else if (levelMatrix[i][j] == 111)
-				{
-					k = 15;
-					SetConsoleTextAttribute(hConsole, k);
-				}
-				//Power pill
-				else if (levelMatrix[i][j] == 79)
-				{
-					k = 14;
-					SetConsoleTextAttribute(hConsole, k);
-				}
+			 }
+			 //pill
+			 else if (levelMatrix[i][j] == SMALLPILL)
+			 {
+				k = 15;
+				SetConsoleTextAttribute(hConsole, k);
+			 }
+			 //Power pill
+			 else if (levelMatrix[i][j] == POWERPILL)
+			 {
+				k = 14;
+				SetConsoleTextAttribute(hConsole, k);
+			 }
 
-				cout << levelMatrix[i][j];
-				if ( j == 27)
+			 cout << levelMatrix[i][j];
+			 if ( j == 27)
 				cout << endl;
 
-				if ( j == 27 && i == 31)
+			 if ( j == 27 && i == 31)
 				stopCounting = true;
-			}
-		}
-		//Color
-		k = 15;
-		SetConsoleTextAttribute(hConsole, k);
+		  }  
+	   }
+
+	   //Color
+	   k = 15;
+	   SetConsoleTextAttribute(hConsole, k);
 	   
-		cout << "Lives Remaining: ";
-		for(int i=0; i<lives; i++){
-			cout << "<";
-		}
-		for(int i=3; i>lives; i--){
-			cout << " ";
-		}
-		cout << endl;
-		cout << "          Score: " << setw(4) << setfill('0') << score << endl;
+	   cout << "lives remaining " << lives << endl;
+	   endTime = clock();
+	   int elapsed = int((endTime - startTime) / CLOCKS_PER_SEC);
+	   //cout  << elapsed;
 
-		if(!(lives > 0 && pillCount != 0))
-			break;
-
-		getKeyPress();
-		endTime = clock();
-		int elapsed = int((endTime - startTime) / CLOCKS_PER_SEC);
-		//cout  << elapsed;
-
-		if (elapsed > 5)
-		{
-			superPellet = false;
-			elapsed = 0;
-		}
+	   if (elapsed > 5)
+	   {
+		  superPellet = false;
+		  elapsed = 0;
+	   }
     }
-    while (lives > 0 && pillCount != 0);
+    while (lives >= 0 || pillCount != 0);
     
-    system("mode 80, 50");
-    SetConsoleTextAttribute(hConsole, 14);
-
-    cout << "       ###############			   "<< endl;         
-    cout << "      ##################		   "<< endl;       
-    cout << "    #######################		   "<< endl;         
-    cout << "  ##############   ###########				   "<< endl;
-    cout << "##############################				   "<< endl;
-    cout << "#######################				   "<< endl;
-    cout << "####################			   "<< endl;
-    cout << "################			   "<< endl;
-    cout << "#############			   "<< endl;
-    cout << "###########				   "<< endl;   
-    cout << "#########					   "<< endl;
-    cout << "############			   "<< "GAME OVER!" << endl;         
-    cout << "##################		   "<< "Final Score: " << score << endl;       
-    cout << "#######################		   "<< endl;         
-    cout << "###########################				   "<< endl;
-    cout << "##############################				   "<< endl;
-    cout << "    #######################				   "<< endl;
-    cout << "      ####################			   "<< endl;
-    cout << "        ################			   "<< endl;
-    system("pause");
+    	system("pause");
 	return 0;
 };
 
@@ -250,13 +218,13 @@ bool ghostMoveUp()
 {
     char ghostNextUp = levelMatrix[ghostOneI - 1][ghostOneJ];
       //Check the next upward block to be sure it is not a wall
-    if ( ghostNextUp != 35)
+    if ( ghostNextUp != WALL)
     {
 	   //Check the last block to see if there was a pill
-	   if ( ghostNextUp == 111 || ghostNextUp == 117 )
+	   if ( ghostNextUp == SMALLPILL || ghostNextUp == 117 )
 	   {
 		  //put the pill back
-		  levelMatrix[ghostOneI - 1][ghostOneJ] = 87;
+		  levelMatrix[ghostOneI - 1][ghostOneJ] = GHOST1;
 
 		  levelMatrix[ghostOneI][ghostOneJ] = ghostTrail;
 		  ghostOneI--;
@@ -264,8 +232,8 @@ bool ghostMoveUp()
 	   else
 	   {
 		  pill = false;
-		  levelMatrix[ghostOneI][ghostOneJ] = 000;
-		  levelMatrix[ghostOneI - 1][ghostOneJ] = 87;
+		  levelMatrix[ghostOneI][ghostOneJ] = BLANK;
+		  levelMatrix[ghostOneI - 1][ghostOneJ] = GHOST1;
 		  ghostOneI--;
 	   }
 	   return true;
@@ -280,18 +248,18 @@ bool ghostMoveDown()
 {
 
     char ghostNextDown = levelMatrix[ghostOneI + 1][ghostOneJ];
-    if ( ghostNextDown != 35)
+    if ( ghostNextDown != WALL)
     {
-	   if ( ghostNextDown == 111 || ghostNextDown ==117)
+	   if ( ghostNextDown == SMALLPILL || ghostNextDown ==117)
 	   {
-		  levelMatrix[ghostOneI + 1][ghostOneJ] = 87;
+		  levelMatrix[ghostOneI + 1][ghostOneJ] = GHOST1;
 		  levelMatrix[ghostOneI][ghostOneJ] = ghostNextDown;
 		  ghostOneI++;
 	   }
 	   else
 	   {
-		  levelMatrix[ghostOneI][ghostOneJ] = 000;
-		  levelMatrix[ghostOneI + 1][ghostOneJ] = 87;
+		  levelMatrix[ghostOneI][ghostOneJ] = BLANK;
+		  levelMatrix[ghostOneI + 1][ghostOneJ] = GHOST1;
 		  ghostOneI++;
 	   }
 	   return true;
@@ -305,18 +273,18 @@ bool ghostMoveDown()
 bool ghostMoveLeft()
 {
     char ghostNextLeft = levelMatrix[ghostOneI][ghostOneJ - 1];
-    if ( ghostNextLeft != 35)
+    if ( ghostNextLeft != WALL)
 	   {
-		  if ( ghostNextLeft == 111 || ghostNextLeft ==117)
+		  if ( ghostNextLeft == SMALLPILL || ghostNextLeft ==117)
 		  {
-			 levelMatrix[ghostOneI][ghostOneJ - 1] = 87;
+			 levelMatrix[ghostOneI][ghostOneJ - 1] = GHOST1;
 			 levelMatrix[ghostOneI][ghostOneJ] = ghostNextLeft;
 			 ghostOneJ--;
 		  }
 		  else
 		  {
-			 levelMatrix[ghostOneI][ghostOneJ] = 000;
-			 levelMatrix[ghostOneI][ghostOneJ - 1] = 87;
+			 levelMatrix[ghostOneI][ghostOneJ] = BLANK;
+			 levelMatrix[ghostOneI][ghostOneJ - 1] = GHOST1;
 			 ghostOneJ--;
 		  }
 		   return true;
@@ -331,19 +299,19 @@ bool ghostMoveLeft()
 bool ghostMoveRight()
 {
     char ghostNextRight = levelMatrix[ghostOneI][ghostOneJ + 1];
-    if ( ghostNextRight != 35)
+    if ( ghostNextRight != WALL)
     {
 	  
-	   if ( ghostNextRight == 111 || ghostNextRight ==117)
+	   if ( ghostNextRight == SMALLPILL || ghostNextRight ==117)
 	   {
-		  levelMatrix[ghostOneI][ghostOneJ + 1] = 87;
+		  levelMatrix[ghostOneI][ghostOneJ + 1] = GHOST1;
 		  levelMatrix[ghostOneI][ghostOneJ] = ghostNextRight;
 		  ghostOneJ++;
 	   }
 	   else
 	   {
-		  levelMatrix[ghostOneI][ghostOneJ] = 000;
-		  levelMatrix[ghostOneI][ghostOneJ + 1] = 87;
+		  levelMatrix[ghostOneI][ghostOneJ] = BLANK;
+		  levelMatrix[ghostOneI][ghostOneJ + 1] = GHOST1;
 		  ghostOneJ++;
 	   }
 	   return true;
@@ -442,111 +410,82 @@ void Ghost()
     //you caught the ghost
     if (pacJ == ghostOneJ && pacI == ghostOneI && superPellet)
     {
-	   levelMatrix[ghostOneI][ghostOneJ] = 074;
+	   levelMatrix[ghostOneI][ghostOneJ] = PACMANRIGHT;
 	   ghostOneI = 16;
 	   ghostOneJ = 14;
-	   levelMatrix[16][14] = 87;
-		score += 200;
+	   levelMatrix[16][14] = GHOST1;
     }
     //Reset the postion of pacman you died
     else if (pacJ == ghostOneJ && pacI == ghostOneI)
     {
 	   lives--;
-	   levelMatrix[pacI][pacJ] = 000;
-	   levelMatrix[ghostOneI][ghostOneJ] = 000;
+	   levelMatrix[pacI][pacJ] = BLANK;
+	   levelMatrix[ghostOneI][ghostOneJ] = BLANK;
 	   pacI = 15;
 	   pacJ = 0;
 	   ghostOneI = 16;
 	   ghostOneJ = 14;
-	   levelMatrix[15][0] = 074;
-	   levelMatrix[16][14] = 87;
+	   levelMatrix[15][0] = PACMANRIGHT;
+	   levelMatrix[16][14] = GHOST1;
     }
 }
 
 void getKeyPress()
 {
-	key = _getch();
-    char pacTemp = '<';
-	//get a special key
-	if (key == 0 || key == -32)  
-	{
-		key = _getch();
-
-		if (key == 72) //up
-		{
-		   if ( levelMatrix[pacI- 1][pacJ] != 35)
-		   {
-			 if (levelMatrix[pacI- 1][pacJ] == 79)
-			 {
-				startTime = clock();
-				superPellet = true;
-			 }
-			 else if (levelMatrix[pacI- 1][pacJ] == 111) // Added by CY
-			 {
-			 	pillCount--;
-			 	score += 10;
-			 }
-			 levelMatrix[pacI][pacJ] = 000;
-			 levelMatrix[pacI - 1][pacJ] = 118;
-			 pacI--;
-		   }
-		}
-		else if (key == 75) //left
-		{
-		    if ( levelMatrix[pacI][pacJ- 1] != 35)
-		    {
-			 if (levelMatrix[pacI][pacJ - 1] == 79)
-			 {
-				startTime = clock();
-				superPellet = true;
-			 }
-			 else if (levelMatrix[pacI][pacJ- 1] == 111) // Added by CY
-			 {
-			 	pillCount--;
-			 	score += 10;
-			 }
-			 levelMatrix[pacI][pacJ] = 000;
-			 levelMatrix[pacI][pacJ - 1] = 076;
-			 pacJ--;
-		    }
-		}
-		else if (key == 77) //right
-		{
-		    if ( levelMatrix[pacI][pacJ+ 1] != 35)
-		    {
-			 if (levelMatrix[pacI][pacJ + 1] == 79)
-			 {
-				startTime = clock();
-				superPellet = true;
-			 }
-			 else if (levelMatrix[pacI][pacJ + 1] == 111) // Added by CY
-			 {
-			 	pillCount--;
-			 	score += 10;
-			 }
-			 levelMatrix[pacI][pacJ] = 000;
-			 levelMatrix[pacI][pacJ + 1] = 074;
-			 pacJ++;
-		    }
-		}
-		else if (key == 80) //down
-		{
-		   if ( levelMatrix[pacI + 1][pacJ] != 35)
-		   {
-			 if (levelMatrix[pacI + 1][pacJ] == 79)
-			 {
-				startTime = clock();
-				superPellet = true;
-			 }
-			 else if (levelMatrix[pacI + 1][pacJ] == 111) // Added by CY
-			 {
-			 	pillCount--;
-			 	score += 10;
-			 }
-			 levelMatrix[pacI][pacJ] = 000;
-			 levelMatrix[pacI + 1][pacJ] = 94;
-			 pacI++;
-		   }
+    if(GetAsyncKeyState(VK_UP))
+    {
+	   if ( levelMatrix[pacI- 1][pacJ] != WALL)
+	   {
+		  if (levelMatrix[pacI- 1][pacJ] == POWERPILL)
+		  {
+			 startTime = clock();
+			 superPellet = true;
+		  }
+		  levelMatrix[pacI][pacJ] = BLANK;
+		  levelMatrix[pacI - 1][pacJ] = PACMANUP;
+		  pacI--;
+	   }
+    }
+    else if (GetAsyncKeyState(VK_LEFT)) //left
+    {
+	   if ( levelMatrix[pacI][pacJ- 1] != WALL)
+	   {
+		  if (levelMatrix[pacI][pacJ - 1] == POWERPILL)
+		  {
+			 startTime = clock();
+			 superPellet = true;
+		  }
+		  levelMatrix[pacI][pacJ] = BLANK;
+		  levelMatrix[pacI][pacJ - 1] = PACMANLEFT;
+		  pacJ--;
+	   }
+    }
+    else if (GetAsyncKeyState(VK_RIGHT)) //right
+    {
+	   if ( levelMatrix[pacI][pacJ+ 1] != WALL)
+	   {
+		  if (levelMatrix[pacI][pacJ + 1] == POWERPILL)
+		  {
+			 startTime = clock();
+			 superPellet = true;
+		  }
+		  levelMatrix[pacI][pacJ] = BLANK;
+		  levelMatrix[pacI][pacJ + 1] = PACMANRIGHT;
+		  pacJ++;
+	   }
+    }
+    else if (GetAsyncKeyState(VK_DOWN)) //down
+    {
+	   if ( levelMatrix[pacI + 1][pacJ] != WALL)
+	   {
+		  if (levelMatrix[pacI + 1][pacJ] == POWERPILL)
+		  {
+			 startTime = clock();
+			 superPellet = true;
+		  }
+		  levelMatrix[pacI][pacJ] = BLANK;
+		  levelMatrix[pacI + 1][pacJ] = PACMANDOWN;
+		  pacI++;
 	   }
     }
 }
@@ -573,7 +512,6 @@ void GoToXY(int column, int line)
         // ...
     }
 }
-
 
 
 
