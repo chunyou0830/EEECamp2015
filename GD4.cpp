@@ -3,24 +3,14 @@
 
 int main(void){
 
-	int length, countH, countV, side;
+	int length, countH, countS;
 	scanf("%d", &length);
-	side = length-2;
-	for(countH=1; countH<=length; countH=countH+1){
-		printf("*");
-	}
-	printf("\n");
-	for(countV=1; countV<=side; countV=countV+1){
-		printf("*");
-		for(countH=1; countH<=side; countH=countH+1){
-			printf(" ");
+	for(countH=1; countH<=length; countH++){
+		for(countS=1; countS<=countH; countS++){
+			printf("*");
 		}
-		printf("*\n");
+		printf("\n");
 	}
-	for(countH=1; countH<=length; countH=countH+1){
-		printf("*");
-	}
-	printf("\n"); 
 
 	return 0;
 }
