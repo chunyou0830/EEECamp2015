@@ -72,7 +72,7 @@ error_reporting(E_ALL);
 			$processed = true;
 		}
 
-			sleep(2);
+		sleep(2);
 	}
 
 	if($result["status"]==15){
