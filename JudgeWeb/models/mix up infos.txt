@@ -1,0 +1,12 @@
+﻿http://problems.sphere-engine.com/api/v3/submissions?access_token=12d373694649e2e696c52a5cf453f7e1e6dafd25&problemCode=Q11&compilerId=11&source=%23include+%3Cstdio.h%3E%0D%0Aint+main%28void%29%0D%0Aprintf%28%221+2%22%29%3B%0D%0Areturn+0%3B%0D%0A%7D%0D%0A%2F%2AXML%2A%2F
+
+#include <stdio.h>
+int main(void){
+printf("1 2");
+return 0;
+}
+/*XML 1110*/
+
+預設為false；指示是否應該使用如cookie或授權標頭檔等憑證進行跨站存取控制(cross-site Access-Control)請求。se.
+
+#include <stdio.h>\nint main(void){\nprintf("1 2");\nreturn 0;\n}\n/*XML 1110*/

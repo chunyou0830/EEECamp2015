@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="2015 清大電機英文營程式設計課程線上闖關網站。">
+    <meta name="author" content="NTHUEE">
+    <script src="pageset.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link href="jumbotron-narrow.css" rel="stylesheet">
+    <link rel="icon" href="./favicon.ico">
+
+    <title>清大電機鋼棍鑄造廠 官方網站</title>
+  </head>
+
+  <body onLoad="pageLoad()">
+    <div class="container">
+      <!-- Header -->
+      <div class="header clearfix">
+        <nav>
+          <ul class="nav nav-pills pull-right">
+            <li role="presentation" class="active"><a href="#">首頁</a></li>
+            <li role="presentation"><a href="./handout.pdf">下載講義</a></li>
+            <li role="presentation"><a href="https://www.facebook.com/pages/2015%E6%B8%85%E5%A4%A7%E9%9B%BB%E6%A9%9F%E8%8B%B1%E6%96%87%E7%87%9F/231377016913173">粉絲專頁</a></li>
+          </ul>
+        </nav>
+        <h3 class="text-muted">NTHUEE English Camp</h3>
+      </div>
+
+      <!-- Jumbotron -->
+      <div class="jumbotron">
+        <h1>清大電機鋼棍鑄造廠</h1>
+        <p class="lead">在很久很久以前，解師傅剛要出道。為了尋找一把適合自己的鋼棍，所以他來到了清大電機鋼棍鑄造廠。身為鐵匠的你們，請幫解師傅打造一把絕世鋼棍，讓他開始闖蕩江湖吧！</p>
+      </div>
+
+      <!-- Main Content -->
+      <div class="row marketing">
+        <h4>鋼棍產品型錄</h4>
+        <div class="col-lg-12" align="center">
+          <button id="Q11" type="button" class="btn btn-lg btn-primary" data-toggle="modal" data-target="#submitModal" data-question=0>
+            <span class="glyphicon" aria-hidden="true" id="gQ11"></span> 矩形鋼棍
+          </button><br><br>
+          <button id="Q21" type="button" class="btn btn-lg btn-success" data-toggle="modal" data-target="#submitModal" data-question=1 disabled="disabled">
+            <span class="glyphicon" aria-hidden="true" id="gQ21"></span> 金箍棒鋼棍
+          </button><br><br>
+          <button id="Q31" type="button" class="btn btn-lg btn-warning" data-toggle="modal" data-target="#submitModal" data-question=2 disabled="disabled">
+            <span class="glyphicon" aria-hidden="true" id="gQ31"></span> 二維金箍棒鋼棍
+          </button>
+          <button id="Q32" type="button" class="btn btn-lg btn-warning" data-toggle="modal" data-target="#submitModal" data-question=3 disabled="disabled">
+            <span class="glyphicon" aria-hidden="true" id="gQ32"></span> 豎立鋼棍
+          </button><br><br>
+          <button id="Q41" type="button" class="btn btn-lg btn-danger" data-toggle="modal" data-target="#submitModal" data-question=4 disabled="disabled">
+            <span class="glyphicon" aria-hidden="true" id="gQ41"></span> 窮鐵匠鋼棍
+          </button>
+          <button id="Q42" type="button" class="btn btn-lg btn-danger" data-toggle="modal" data-target="#submitModal" data-question=5 disabled="disabled">
+            <span class="glyphicon" aria-hidden="true" id="gQ42"></span> 尖頭鋼棍
+          </button>
+          <button id="Q43" type="button" class="btn btn-lg btn-danger" data-toggle="modal" data-target="#submitModal" data-question=6 disabled="disabled">
+            <span class="glyphicon" aria-hidden="true" id="gQ43"></span> 星星鋼棍
+          </button>
+          <button id="Q44" type="button" class="btn btn-lg btn-danger" data-toggle="modal" data-target="#submitModal" data-question=7 disabled="disabled">
+            <span class="glyphicon" aria-hidden="true" id="gQ44"></span> 狼牙棒鋼棍
+          </button>
+        <br><br><br>
+        </div>
+        <h4>使用說明</h4>
+        <div class="col-lg-12">
+          <ul>
+            <li><div id="countdown"></div></li>
+            <li>請點選鋼棍產品型錄中的任一按鈕，以開啟該題的說明與繳交頁面。</li>
+            <li>按鈕文字前面若顯示為 <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span> 表示尚未答對。若顯示為 <span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span> 表示已經答對。</li>
+            <li>題目共分為 4 級（以不同顏色代表）。當上一級其中一題已經答對時，下一級的題目才會開啟。</li>
+            <li class="text-danger">系統測試中，每題的執行結果請輸入「123（換行）321」即可通關。</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <footer class="footer">
+        <p>&copy; 2015 清大電機英文營 程式設計教學課程 活動網頁 | Develop by chunyou0830</p>
+      </footer>
+    </div>
+
+    <!-- Popup Submit Modal -->
+    <div class="modal fade" id="submitModal" tabindex="-1" role="dialog" aria-labelledby="submitModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h3 class="modal-title" id="submitModalLabel"></h3>
+          </div>
+          <div class="modal-body">
+            <!-- Question Content -->
+          <div class="questionContent">
+            <div id="question-questionIntro"></div>
+            <h4>輸入說明</h4>
+            <div id="question-inputRequest"></div>
+            <h4>輸出說明</h4>
+            <div id="question-outputRequest"></div>
+            <h4>範例輸入</h4>
+            <div id="question-inputExample"></div>
+            <h4>範例輸出</h4>
+            <div id="question-outputExample"></div>
+            <h4>提示</h4>
+            <div id="question-questionHint"></div>
+          </div>
+          <!-- Input Form -->
+            <form>
+          <h4>通關驗證</h4>
+              <div class="form-group">
+                <label for="form-submit-ID" class="control-label">題目編號：</label>
+                <input type="text" class="form-control" id="form-submit-ID">
+                <span id="helpBlock" class="help-block">編號由系統自動產生，請勿更改，避免判斷錯誤。</span>
+              </div>
+              <div class="form-group">
+                <label for="form-submit-code" class="control-label">執行結果：</label>
+                <textarea class="form-control" id="form-submit-code"></textarea>
+              </div>
+            </form>
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">關閉</button>
+            <button type="button" class="btn btn-primary" onClick="sendCode()">送出</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Form Auto Complete -->
+    <script>
+      $('#submitModal').on('show.bs.modal', function (event) {
+        // Get the button data
+        var button = $(event.relatedTarget)
+        var id = button.data('question')
+        var qid = data.sticks[id].questionID;
+        // Set the modal
+        var modal = $(this)
+        document.getElementById('question-questionIntro').innerHTML="<p>"+data.sticks[id].questionIntro+"</p>"
+        document.getElementById('question-inputRequest').innerHTML="<p>"+data.sticks[id].inputRequest+"</p>"
+        document.getElementById('question-outputRequest').innerHTML="<p>"+data.sticks[id].outputRequest+"</p>"
+        document.getElementById('question-inputExample').innerHTML="<pre>"+data.sticks[id].inputExample+"</pre>"
+        document.getElementById('question-outputExample').innerHTML="<pre>"+data.sticks[id].outputExample+"</pre>"
+        document.getElementById('question-questionHint').innerHTML="<p>"+data.sticks[id].questionHint+"</p>"
+        modal.find('.modal-title').text(data.sticks[id].stickName)
+        modal.find('.modal-body input').val(qid)
+      })
+    </script>
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+  </body>
+</html>

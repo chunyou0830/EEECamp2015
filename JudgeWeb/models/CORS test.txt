@@ -1,0 +1,51 @@
+
+	<!-- Test area -->
+	<script>
+		// Create the XHR object.
+		function createCORSRequest(method, url) {
+		  var xhr = new XMLHttpRequest();
+		  if ("withCredentials" in xhr) {
+		    // XHR for Chrome/Firefox/Opera/Safari.
+		    xhr.open(method, url, true);
+		  } else if (typeof XDomainRequest != "undefined") {
+		    // XDomainRequest for IE.
+		    xhr = new XDomainRequest();
+		    xhr.open(method, url);
+		  } else {
+		    // CORS not supported.
+		    xhr = null;
+		  }
+		  return xhr;
+		}
+
+		// Helper method to parse the title tag from the response.
+		function getTitle(text) {
+		  return text.match('<title>(.*)?</title>')[1];
+		}
+
+		// Make the actual CORS request.
+		function makeCorsRequest() {
+		  // All HTML5 Rocks properties support CORS.
+		  var url = 'http://problems.sphere-engine.com/api/v3/test?access_token=12d373694649e2e696c52a5cf453f7e1e6dafd25';
+
+		  var xhr = createCORSRequest('GET', url);
+		  if (!xhr) {
+		    alert('CORS not supported');
+		    return;
+		  }
+
+		  // Response handlers.
+		  xhr.onload = function() {
+		    var text = xhr.responseText;
+		    var title = getTitle(text);
+		    alert('Response from CORS request to ' + url + ': ' + title);
+		  };
+
+		  xhr.onerror = function() {
+		    var text = xhr.responseText;
+		    alert('Woops, there was an error making the request.'+text);
+		  };
+
+		  xhr.send();
+		}
+	</script>

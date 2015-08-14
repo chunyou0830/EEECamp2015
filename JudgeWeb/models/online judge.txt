@@ -1,0 +1,44 @@
+
+	<!-- Code Online Judge -->
+	<script>
+		var ajax;
+
+		function createAJAX() {
+		　if (window.ActiveXObject) {
+		　　try {
+		　　　return new ActiveXObject("Msxml2.XMLHTTP");
+		　　} catch (e) {
+		　　　try {
+		　　　　return new ActiveXObject("Microsoft.XMLHTTP");
+		　　　} catch (e2) {
+		　　　　return null;
+		　　　}
+		　　}
+		　} else if (window.XMLHttpRequest) {
+		　　return new XMLHttpRequest({ anon: true, system: true });
+		　} else {
+		　　return null;
+		　}
+		}
+
+		function onRcvData () {
+		    if (ajax.readyState == 4) {
+		        alert(ajax.status);
+		        var income = ajax.responseText ;
+		        document.getElementById("return-code").innerHTML= income;
+		    }
+		}
+
+		function sendCode(){
+			ajax = createAJAX() ;
+			if (!ajax) {
+				alert ('XMLHttpRequest not available.');
+				return 0;
+			}
+
+			ajax.onreadystatechange = onRcvData;
+			ajax.withCredentials = false;
+			ajax.open("POST","http://problems.sphere-engine.com/api/v3/submissions?access_token=12d373694649e2e696c52a5cf453f7e1e6dafd25&problemCode="+encodeURIComponent(document.getElementById("form-submit-ID").value)+"&compilerId=11&source="+encodeURIComponent(document.getElementById("form-submit-code").value),true);
+			ajax.send("");
+		}
+	</script>

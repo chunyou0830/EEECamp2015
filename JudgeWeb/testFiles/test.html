@@ -1,0 +1,102 @@
+<html>
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<body>
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#submitModal" data-question="矩形鋼棍">矩形鋼棍</button>
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#submitModal" data-question="金箍棒鋼棍">金箍棒鋼棍</button>
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#submitModal" data-question="二維金箍棒鋼棍">二維金箍棒鋼棍</button>
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#submitModal" data-question="豎立鋼棍">豎立鋼棍</button>
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#submitModal" data-question="窮鐵匠鋼棍">窮鐵匠鋼棍</button>
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#submitModal" data-question="尖頭鋼棍">尖頭鋼棍</button>
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#submitModal" data-question="星星鋼棍">星星鋼棍</button>
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#submitModal" data-question="狼牙棒鋼棍">狼牙棒鋼棍</button>
+      <div id="content">This is content</div>
+
+<div class="modal fade" id="submitModal" tabindex="-1" role="dialog" aria-labelledby="submitModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="submitModalLabel">New message</h4>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="recipient-name" class="control-label">Recipient:</label>
+            <input type="text" class="form-control" id="recipient-name">
+          </div>
+          <div class="form-group">
+            <label for="message-text" class="control-label">Message:</label>
+            <textarea class="form-control" id="message-text"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">關閉</button>
+        <button type="button" class="btn btn-primary" onClick="sendCode()">送出</button>
+      </div>
+    </div>
+  </div>
+</div>-
+<button class="btn btn-primary" onClick="sendCode()">123</button>
+
+<script>
+var ajax;
+var data;
+
+function createAJAX() {
+　if (window.ActiveXObject) {
+　　try {
+　　　return new ActiveXObject("Msxml2.XMLHTTP");
+　　} catch (e) {
+　　　try {
+　　　　return new ActiveXObject("Microsoft.XMLHTTP");
+　　　} catch (e2) {
+　　　　return null;
+　　　}
+　　}
+　} else if (window.XMLHttpRequest) {
+　　return new XMLHttpRequest();
+　} else {
+　　return null;
+　}
+}
+
+function onRcvData () {
+　if (ajax.readyState == 4) {
+　　if (ajax.status == 200) {
+      alert("Get the data!");
+　　　var content = document.getElementById ('content');
+      data = JSON.parse(ajax.responseText);
+      alert(data.sticks[3].stickName);
+　　　content.innerHTML = "<pre>"+data.sticks[3].outputExample+"</pre>";
+　　} else {
+　　　alert ("伺服器處理錯誤"+ajax.status);
+　　}
+　} 
+}
+
+function sendCode(){
+var http = new XMLHttpRequest();
+var url = "curl.php";
+var params = "qid=Q11&code=123";
+http.open("POST", url, true);
+
+//Send the proper header information along with the request
+http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+http.setRequestHeader("Content-length", params.length);
+http.setRequestHeader("Connection", "close");
+
+http.onreadystatechange = function() {//Call a function when the state changes.
+    if(http.readyState == 4 && http.status == 200) {
+        alert(http.responseText);
+    }
+}
+http.send(params);
+}
+</script>
+</body>
+</html>
