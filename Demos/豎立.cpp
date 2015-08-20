@@ -3,14 +3,11 @@
     
     int main()
     {
-        int i, j, length;
-        char rotation;
+        int i, j, length, rotation;
         
-        printf("Do you want to rotate your stick? (y/n) ");
-        scanf("%c",&rotation);
-        printf("Length: ");
+        scanf("%d",&rotation);
         scanf("%d",&length);
-        if(rotation == 'n'){ 
+        if(rotation == 0){ 
             for(i=0; i < 3; i++){
                 for(j=0; j < length; j++)
                     printf("*");
@@ -23,9 +20,7 @@
                     printf("*");
                 printf("\n");
             }
-        }
-        printf("\n");
-        system("pause");       
+        }    
         return 0;
     }
     

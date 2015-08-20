@@ -5,9 +5,7 @@
     {
         int i, j, length, area, width;
         
-        printf("Area: ");
         scanf("%d",&area);
-        printf("Length: ");
         scanf("%d",&length);
         width = area / length;
         
@@ -15,9 +13,7 @@
             for(j=0; j < length; j++)
                 printf("*");
             printf("\n");
-        }
-        printf("\n");
-        system("pause");       
+        }      
         return 0;
     }
     

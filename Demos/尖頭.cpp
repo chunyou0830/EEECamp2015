@@ -5,9 +5,7 @@
     {
         int i, j, length, width;
         
-        printf("Length: ");
         scanf("%d",&length);
-        printf("Width: ");
         scanf("%d",&width); 
         for(i=0; i < width; i++){
             for(j=0; j < length; j++)
@@ -23,9 +21,7 @@
             }  
                 
             printf("\n");
-        }
-        printf("\n");
-        system("pause");       
+        }      
         return 0;
     }
     

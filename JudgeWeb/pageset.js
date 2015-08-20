@@ -1,4 +1,4 @@
-// Cookie Reader
+// Cookie Reader --------------------
 
 var testMode = false;
 
@@ -13,7 +13,7 @@ function cookieRead(name) {
     return null;
 }
 
-// Button Enable Setting
+// Button Enable Setting --------------------
 
 function buttonSetting(){
     if(cookieRead("Q11")=="true"){
@@ -47,36 +47,7 @@ function buttonSetting(){
     else{document.getElementById("gQ44").className += " glyphicon-question-sign";}
 }
 
-// Local Answer Judgment
-
-function checkAnswer(){
-    submitID = document.getElementById("form-submit-ID").value.split("\n");
-    submitCode = document.getElementById("form-submit-code").value.split("\n");
-    correctCode = ["123","321"];
-
-    var limit =  submitCode.length > correctCode.length ?  submitCode.length : correctCode.length;
-    var check = true;
-    for(i=0;i<limit ; i++)
-    {
-        if(submitCode[i] != correctCode[i])
-        {
-            check = false;
-            break;
-        }
-    }
-    if(check){
-        alert("恭喜你答對了！");
-        document.cookie=submitID+"=true; expires=Fri, 21 Aug 2015 04:00:00 UTC";
-        //buttonSetting();
-        //$('#submitModal').modal('hide');
-        location.reload();
-    }
-    else{
-        alert("不對喔，再試試看吧！");
-    }
-}
-
-// Fetch JSON Data
+// Fetch JSON Data --------------------
 
 var ajax_stick;
 var data;
@@ -121,63 +92,73 @@ function getSticks(){
     ajax_stick.send("");
 }
 
+// Code Online Judge --------------------
+
+var ajax_judge;
+
+function createAJAX_judge() {
+    if (window.ActiveXObject) {
+        try {
+            return new ActiveXObject("Msxml2.XMLHTTP");
+        } catch (e) {
+            try {
+                return new ActiveXObject("Microsoft.XMLHTTP");
+            } catch (e2) {
+                return null;
+            }
+        }
+    } else if (window.XMLHttpRequest) {
+        return new XMLHttpRequest({ anon: true, system: true });
+    } else {
+        return null;
+    }
+}
+
+function onRcvData_judge () {
+    if (ajax_judge.readyState == 4) {
+        if(ajax_judge.responseText=="true"){
+            alert("恭喜你答對了！");
+            document.cookie=document.getElementById("form-submit-ID").value+"=true; expires=Fri, 21 Aug 2015 04:00:00 UTC";
+        }
+        else{
+            alert("不對喔，再試試看吧！");
+        }
+        location.reload();
+    }
+    else{
+        if(testMode){
+            alert("Err_XMLHttpRequest_SendCode_Recieve_"+ajax_judge.status);
+        }
+    }
+}
+
+function sendCode(){
+    ajax_judge = createAJAX_judge() ;
+
+    var url = "curl.php";
+    var params = "qid="+encodeURIComponent(document.getElementById("form-submit-ID").value)+"&code="+encodeURIComponent(document.getElementById("form-submit-code").value);
+
+    if (!ajax_judge) {
+        alert ('Err_XMLHttpRequest_Unavailable');
+        return 0;
+    }
+
+    ajax_judge.onreadystatechange = onRcvData_judge;
+    ajax_judge.open("POST",url,true);
+    ajax_judge.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    ajax_judge.setRequestHeader("Content-length", params.length);
+    ajax_judge.setRequestHeader("Connection", "close");
+    ajax_judge.send(params);
+}
+
+// Onload Setting --------------------
+
 function pageLoad(){
     buttonSetting();
     getSticks();
 }
 
-// Code Online Judge
-
-        var ajax_judge;
-
-        function createAJAX_judge() {
-        　if (window.ActiveXObject) {
-        　　try {
-        　　　return new ActiveXObject("Msxml2.XMLHTTP");
-        　　} catch (e) {
-        　　　try {
-        　　　　return new ActiveXObject("Microsoft.XMLHTTP");
-        　　　} catch (e2) {
-        　　　　return null;
-        　　　}
-        　　}
-        　} else if (window.XMLHttpRequest) {
-        　　return new XMLHttpRequest({ anon: true, system: true });
-        　} else {
-        　　return null;
-        　}
-        }
-
-        function onRcvData_judge () {
-            if (ajax_judge.readyState == 4) {
-                alert(ajax_judge.responseText);
-                location.reload();
-            }
-            else{
-                alert("Err_XMLHttpRequest_SendCode_Recieve_"+ajax_judge.status);
-            }
-        }
-
-        function sendCode(){
-            ajax_judge = createAJAX_judge() ;
-
-            var url = "curl.php";
-            var params = "qid="+encodeURIComponent(document.getElementById("form-submit-ID").value)+"&code="+encodeURIComponent(document.getElementById("form-submit-code").value);
-
-            if (!ajax_judge) {
-                alert ('Err_XMLHttpRequest_Unavailable');
-                return 0;
-            }
-
-            ajax_judge.onreadystatechange = onRcvData_judge;
-            ajax_judge.open("POST",url,true);
-            ajax_judge.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-            ajax_judge.setRequestHeader("Content-length", params.length);
-            ajax_judge.setRequestHeader("Connection", "close");
-            ajax_judge.send(params);
-        }
-
-// Timer
+// Timer --------------------
 
 var end = new Date('08/20/2015 10:00 PM');
 
