@@ -135,8 +135,8 @@ function onRcvData_judge () {
 function sendCode(){
     ajax_judge = createAJAX_judge() ;
 
-    var url = "curl.php";
-    var params = "qid="+encodeURIComponent(document.getElementById("form-submit-ID").value)+"&code="+encodeURIComponent(document.getElementById("form-submit-code").value);
+    //var url = "curl.php";
+    //var params = "qid="+encodeURIComponent(document.getElementById("form-submit-ID").value)+"&code="+encodeURIComponent(document.getElementById("form-submit-code").value);
 
     if (!ajax_judge) {
         alert ('Err_XMLHttpRequest_Unavailable');
